@@ -13,14 +13,10 @@ class AppBase extends React.Component {
   }
 
   showMore = (number) => {
-    const one = '1';
-    const two = '2';
-    const three = '3';
-
     switch (number) {
       case 1:
-        const One = SystemJS.import(`${1}.js`);
-        const Two = SystemJS.import(`${2}.js`);
+        const One = SystemJS.import(`${number}.js`);
+        const Two = SystemJS.import(`${number + 1}.js`);
 
         Promise.all([ One, Two ]).then((values) => {
           this.setState({
@@ -35,8 +31,8 @@ class AppBase extends React.Component {
         });
         break;
       case 2:
-        const Dos = SystemJS.import(`${2}.js`);
-        const Tres = SystemJS.import(`${3}.js`);
+        const Dos = SystemJS.import(`${number}.js`);
+        const Tres = SystemJS.import(`${number + 1}.js`);
 
         Promise.all([ Dos, Tres ]).then((values) => {
           this.setState({

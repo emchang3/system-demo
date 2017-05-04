@@ -3,43 +3,44 @@ const gulp = require('gulp');
 const browserify = require('browserify');
 const babel = require('gulp-babel');
 
-const src = './src/';
-const dest = './public/javascripts/';
+const src = './src';
+const dest = './public/javascripts';
 
-const bundlePresets = {
+const srcFiles = [ `${src}/*.js`, `${src}/components/*.js` ];
+const watchRoutines = [ 'normalBundleTranspilation', 'componentSystemTranspilation' ];
+
+// This configuration object applies specified presets, with explicit option of ignoring `.babelrc`.
+const normalBundleBabelConfig = {
   'presets': [ 'es2015', 'react', 'stage-0' ],
   'babelrc': false
 }
-console.log('bundlePresets', bundlePresets);
+// console.log('normalBundleBabelConfig', normalBundleBabelConfig);
 
-const makeConfig = Object.assign(
+// This task is a simplified version of our normal transpile and bundle (sans minification).
+gulp.task('normalBundleTranspilation', () => {
+  return browserify({
+    entries: `${src}/base.js`,
+    debug: true
+  }).transform('babelify', normalBundleBabelConfig)
+    .bundle()
+    .on('error', (err) => console.log(err))
+    .pipe(fs.createWriteStream(`${dest}/app.js`));
+});
+
+// This configuration object combines the normal settings with additional plugin for SystemJS.
+const systemJSBabelConfig = Object.assign(
   {},
-  bundlePresets,
+  normalBundleBabelConfig,
   { 'plugins': [ 'transform-es2015-modules-systemjs' ] }
 );
-console.log('makeConfig:', makeConfig);
+// console.log('systemJSBabelConfig:', systemJSBabelConfig);
 
-gulp.task('make-bundle', () => {
-  var b = browserify({
-    entries: `${src}base.js`,
-    debug: true
-  });
-
-  return b.transform('babelify', bundlePresets)
-          .bundle()
-          .on('error', (err) => console.log(err))
-          .pipe(fs.createWriteStream(`${dest}app.js`));
+// This task transpiles files separately, with the additional transformation of SystemJS module
+// formatting.
+gulp.task('componentSystemTranspilation', () => {
+  return gulp.src(`${src}/components/*.js`)
+             .pipe(babel(systemJSBabelConfig))
+             .pipe(gulp.dest(`${dest}/`));
 });
 
-gulp.task('transform-system', () => {
-  return gulp.src(`${src}components/*.js`)
-             .pipe(babel(makeConfig))
-             .pipe(gulp.dest(`${dest}`));
-  // require('babel-core').transform('code', makeConfig);
-});
-
-gulp.task(
-  'default',
-  [ 'make-bundle', 'transform-system' ],
-  () => gulp.watch([ `${src}*.js`, `${src}components/*.js` ], [ 'make-bundle', 'transform-system' ])
-);
+gulp.task('default', watchRoutines, () => gulp.watch(srcFiles, watchRoutines));
