@@ -1,8 +1,8 @@
-const Three = ({ children }) => {
+const Four = ({ children }) => {
   const boxStyle = {
     width: '150px',
     height: '50px',
-    border: '2px solid blue',
+    border: '2px solid orange',
     display: 'inline-block',
     marginRight: '16px',
     textAlign: 'center',
@@ -11,10 +11,8 @@ const Three = ({ children }) => {
   }
 
   return (
-    <div style={boxStyle}>
-      { children ? children : 3 }
-    </div>
+    <div style={boxStyle}>4 { children ? children : null }</div>
   );
 }
 
-export default Three;
+export default Four;

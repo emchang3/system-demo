@@ -21,11 +21,7 @@ class AppBase extends React.Component {
         Promise.all([ One, Two ]).then((values) => {
           this.setState({
             sub: values.map((m) => {
-              return React.createElement(
-                m.default,
-                { key: `child-${values.indexOf(m) + 1}` },
-                null
-              );
+              return <m.default key={`child-${values.indexOf(m) + 1}`} />
             })
           });
         });
@@ -37,12 +33,25 @@ class AppBase extends React.Component {
         Promise.all([ Dos, Tres ]).then((values) => {
           this.setState({
             sub: values.map((m) => {
-              return React.createElement(
-                m.default,
-                { key: `child-${values.indexOf(m) + 2}` },
-                null
-              );
+              return <m.default key={`child-${values.indexOf(m) + 2}`} />
             })
+          });
+        });
+        break;
+      case 3:
+        const 三 = SystemJS.import(`${number}.js`);
+        const 四 = SystemJS.import(`${number + 1}.js`);
+
+        Promise.all([ 三, 四 ]).then((values) => {
+          const Tre = values[0].default;
+          const Quattro = values[1].default;
+          this.setState({
+            sub: [
+              <Tre
+                key="child-3"
+                children={[ <Quattro key="child-4" children={[ '(in 3).' ]} /> ]}
+              />
+            ]
           });
         });
         break;
@@ -76,7 +85,7 @@ class AppBase extends React.Component {
         >
           <div style={boxStyle} onClick={() => this.showMore(1)}>A</div>
           <div style={boxStyle} onClick={() => this.showMore(2)}>B</div>
-          <div style={boxStyle}>C</div>
+          <div style={boxStyle} onClick={() => this.showMore(3)}>C</div>
         </div>
         <div
           style={{

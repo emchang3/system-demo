@@ -43,4 +43,7 @@ gulp.task('componentSystemTranspilation', () => {
              .pipe(gulp.dest(`${dest}/`));
 });
 
-gulp.task('default', watchRoutines, () => gulp.watch(srcFiles, watchRoutines));
+gulp.task('default', watchRoutines, () => {
+  gulp.watch([ srcFiles[0] ], [ watchRoutines[0] ]);
+  gulp.watch([ srcFiles[1] ], [ watchRoutines[1] ]);
+});

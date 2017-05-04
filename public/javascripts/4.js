@@ -3,15 +3,17 @@
 System.register([], function (_export, _context) {
   "use strict";
 
-  var Two;
+  var Four;
   return {
     setters: [],
     execute: function () {
-      Two = function Two() {
+      Four = function Four(_ref) {
+        var children = _ref.children;
+
         var boxStyle = {
           width: '150px',
           height: '50px',
-          border: '2px solid green',
+          border: '2px solid orange',
           display: 'inline-block',
           marginRight: '16px',
           textAlign: 'center',
@@ -22,11 +24,12 @@ System.register([], function (_export, _context) {
         return React.createElement(
           'div',
           { style: boxStyle },
-          '2'
+          '4 ',
+          children ? children : null
         );
       };
 
-      _export('default', Two);
+      _export('default', Four);
     }
   };
 });

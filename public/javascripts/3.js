@@ -7,11 +7,13 @@ System.register([], function (_export, _context) {
   return {
     setters: [],
     execute: function () {
-      Three = function Three() {
+      Three = function Three(_ref) {
+        var children = _ref.children;
+
         var boxStyle = {
           width: '150px',
           height: '50px',
-          border: '1px solid black',
+          border: '2px solid blue',
           display: 'inline-block',
           marginRight: '16px',
           textAlign: 'center',
@@ -22,7 +24,7 @@ System.register([], function (_export, _context) {
         return React.createElement(
           'div',
           { style: boxStyle },
-          '3'
+          children ? children : 3
         );
       };
 

@@ -1,10 +1,8 @@
-// import React from 'react';
-
 const Two = () => {
   const boxStyle = {
     width: '150px',
     height: '50px',
-    border: '1px solid black',
+    border: '2px solid green',
     display: 'inline-block',
     marginRight: '16px',
     textAlign: 'center',

@@ -11,7 +11,7 @@ System.register([], function (_export, _context) {
         var boxStyle = {
           width: '150px',
           height: '50px',
-          border: '1px solid black',
+          border: '2px solid red',
           display: 'inline-block',
           marginRight: '16px',
           textAlign: 'center',
